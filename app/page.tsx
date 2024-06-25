@@ -1,4 +1,3 @@
-// app/page.tsx
 "use client";
 
 import { useState } from 'react';
@@ -11,7 +10,12 @@ export default function Home() {
   const fetchAlbums = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('https://album-api.happymushroom-e864d1c9.canadacentral.azurecontainerapps.io/albums');
+      const response = await axios.get('https://album-apim.azure-api.net/albums', {
+        headers: {
+          'Ocp-Apim-Subscription-Key': 'YOUR_SUBSCRIPTION_KEY'
+        }
+      });
+
       if (response.status === 200) {
         setAlbums(response.data);
       } else {
