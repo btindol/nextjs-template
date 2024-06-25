@@ -38,4 +38,4 @@ jobs:
 
     - name: Deploy to Azure Storage
       run: |
-        az storage blob upload-batch -d '$web' -s './out' --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+        az storage blob upload-batch -d '$web' -s './out' --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} --overwrite
