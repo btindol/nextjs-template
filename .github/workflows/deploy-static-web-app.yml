@@ -34,9 +34,7 @@ jobs:
       run: npm install
 
     - name: Build static site
-      run: |
-        npm run build
-        npm run export
+      run: npm run build
 
     - name: Deploy to Azure Storage
       run: |
