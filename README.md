@@ -13,3 +13,15 @@
 1) docker build -t nextjs-app .
 
 2) docker run -p 3000:3000 nextjs-app
+
+
+# Make service principle for the repo
+az login
+
+az ad sp create-for-rbac --name "nextjsserviceprinciple" --role Contributor --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group-name} --sdk-auth
+
+
+# Make github actions in .github/workflow/deploy.yml
+
+
+# Get the storage account key and name and add to env secrets in github

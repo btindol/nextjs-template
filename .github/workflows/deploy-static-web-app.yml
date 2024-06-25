@@ -1,0 +1,43 @@
+name: Deploy Static Web App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: next-js-deploy
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Azure CLI
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          echo "Azure CLI setup complete"
+
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build and export static site
+      run: |
+        npm run build
+        npm run export
+
+    - name: Deploy to Azure Storage
+      run: |
+        az storage blob upload-batch -d '$web' -s './out' --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
