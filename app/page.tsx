@@ -15,7 +15,7 @@ interface Album {
 
 export default function Home() {
   const { data: session, status } = useSession();
-  const [albums, setAlbums] = useState<Album[]>([]); // Use the Album interface here
+  const [albums, setAlbums] = useState<Album[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -40,7 +40,6 @@ export default function Home() {
       const response = await axios.get('https://album-api.happymushroom-e864d1c9.canadacentral.azurecontainerapps.io/albums', {
         headers: {
           'Authorization': `Bearer ${session.accessToken}`,
-          'Ocp-Apim-Subscription-Key': 'YOUR_SUBSCRIPTION_KEY' // Remove if not needed
         }
       });
 
