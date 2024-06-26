@@ -1,3 +1,4 @@
+// next.config.mjs
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -10,7 +11,5 @@ const nextConfig = {
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   },
 };
-
-console.log('NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
 
 export default nextConfig;
