@@ -8,6 +8,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment: next-js-deploy
 
     steps:
     - name: Checkout code
