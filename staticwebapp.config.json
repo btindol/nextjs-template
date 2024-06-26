@@ -3,6 +3,23 @@
       "nodejs": {
         "version": "18.17.0"
       }
+    },
+    "routes": [
+      {
+        "route": "/api/*",
+        "allowedRoles": ["authenticated"]
+      },
+      {
+        "route": "/auth/*",
+        "allowedRoles": ["anonymous"]
+      },
+      {
+        "route": "/*",
+        "rewrite": "/index.html"
+      }
+    ],
+    "navigationFallback": {
+      "rewrite": "/index.html"
     }
   }
   
