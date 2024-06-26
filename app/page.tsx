@@ -1,28 +1,65 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useSession, signIn, signOut } from 'next-auth/react';
+
+// Define the Album interface
+interface Album {
+  id: number;
+  title: string;
+  artist: string;
+  price: number;
+  image_url: string;
+}
 
 export default function Home() {
-  const [albums, setAlbums] = useState<any[]>([]);
+  const { data: session, status } = useSession();
+  const [albums, setAlbums] = useState<Album[]>([]); // Use the Album interface here
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    console.log('Home component: Session status:', status);
+    if (session) {
+      console.log('Home component: Session data:', session);
+    } else {
+      console.log('Home component: No session data');
+    }
+  }, [session, status]);
+
   const fetchAlbums = async () => {
+    if (!session) {
+      console.log('Home component: No session found, signing in...');
+      signIn();
+      return;
+    }
+
     setLoading(true);
     try {
-      const response = await axios.get('https://album-apim.azure-api.net/albums', {
+      console.log('Home component: Fetching albums with session:', session);
+      const response = await axios.get('https://album-api.happymushroom-e864d1c9.canadacentral.azurecontainerapps.io/albums', {
         headers: {
-          'Ocp-Apim-Subscription-Key': 'YOUR_SUBSCRIPTION_KEY'
+          'Authorization': `Bearer ${session.accessToken}`,
+          // Remove the subscription key if not needed for the direct API call
+          'Ocp-Apim-Subscription-Key': 'YOUR_SUBSCRIPTION_KEY' 
         }
       });
+      // const response = await axios.get('https://album-apim.azure-api.net/albums', {
+      //   headers: {
+      //     'Authorization': `Bearer ${session.accessToken}`,
+      //     'Ocp-Apim-Subscription-Key': 'YOUR_SUBSCRIPTION_KEY' // Ensure to replace with actual subscription key
+      //   }
+      // });
 
+      console.log('Home component: Response status:', response.status);
       if (response.status === 200) {
+        console.log('Home component: Albums data:', response.data);
         setAlbums(response.data);
       } else {
-        console.error(`Failed to retrieve albums. HTTP Status code: ${response.status}`);
+        console.error(`Home component: Failed to retrieve albums. HTTP Status code: ${response.status}`);
       }
     } catch (error) {
-      console.error('Error fetching albums:', error);
+      console.error('Home component: Error fetching albums:', error);
     } finally {
       setLoading(false);
     }
@@ -31,13 +68,24 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <h1 className="text-4xl font-bold">Hello, World from Next.js!</h1>
-      <button 
-        onClick={fetchAlbums} 
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
-        disabled={loading}
-      >
-        {loading ? 'Loading...' : 'Fetch Albums'}
-      </button>
+      {status === "authenticated" ? (
+        <>
+          <button 
+            onClick={fetchAlbums} 
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+            disabled={loading}
+          >
+            {loading ? 'Loading...' : 'Fetch Albums'}
+          </button>
+          <button onClick={() => signOut()} className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700">
+            Sign Out
+          </button>
+        </>
+      ) : (
+        <button onClick={() => signIn()} className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700">
+          Sign In
+        </button>
+      )}
       <div className="mt-8 w-full max-w-2xl">
         {albums.length > 0 ? (
           albums.map((album) => (
