@@ -40,16 +40,9 @@ export default function Home() {
       const response = await axios.get('https://album-api.happymushroom-e864d1c9.canadacentral.azurecontainerapps.io/albums', {
         headers: {
           'Authorization': `Bearer ${session.accessToken}`,
-          // Remove the subscription key if not needed for the direct API call
-          'Ocp-Apim-Subscription-Key': 'YOUR_SUBSCRIPTION_KEY' 
+          'Ocp-Apim-Subscription-Key': 'YOUR_SUBSCRIPTION_KEY' // Remove if not needed
         }
       });
-      // const response = await axios.get('https://album-apim.azure-api.net/albums', {
-      //   headers: {
-      //     'Authorization': `Bearer ${session.accessToken}`,
-      //     'Ocp-Apim-Subscription-Key': 'YOUR_SUBSCRIPTION_KEY' // Ensure to replace with actual subscription key
-      //   }
-      // });
 
       console.log('Home component: Response status:', response.status);
       if (response.status === 200) {
