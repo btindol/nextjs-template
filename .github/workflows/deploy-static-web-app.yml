@@ -38,5 +38,5 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         action: "upload"
         app_location: "/"
-        output_location: ".next"
+        output_location: ".next/standalone"
         api_location: "api"

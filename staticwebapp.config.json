@@ -12,10 +12,6 @@
       {
         "route": "/auth/*",
         "allowedRoles": ["anonymous"]
-      },
-      {
-        "route": "/*",
-        "rewrite": "/index.html"
       }
     ],
     "navigationFallback": {

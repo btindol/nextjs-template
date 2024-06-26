@@ -16,7 +16,6 @@
 
 
 //////////deployed to azure
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
@@ -27,12 +26,8 @@ const nextConfig = {
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   },
-  experimental: {
-    outputStandalone: true,
-  },
   reactStrictMode: true,
 };
 
 module.exports = nextConfig;
-
 
