@@ -36,7 +36,7 @@ export default function Home() {
 
     setLoading(true);
     try {
-      console.log('Home component: Fetching albums with session:', session);
+      console.log('Home component: Fetching albums with sessions:', session);
       const response = await axios.get('https://album-api.happymushroom-e864d1c9.canadacentral.azurecontainerapps.io/albums', {
         headers: {
           'Authorization': `Bearer ${session.accessToken}`,
