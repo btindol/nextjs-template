@@ -65,3 +65,13 @@ declare module "next-auth" {
 ---------------------------------------------
 Add a file in pages/api/auth directory // pages/api/auth/[...nextauth].ts
 ----------------
+
+-------------------------------------------------------
+# Remove in appp auth
+pages/api/auth/[...nextauth].ts: This file is no longer needed because you're relying on the Static Web Apps authentication mechanism rather than next-auth.
+
+types/next-auth.d.ts: If you were using next-auth specific types, you can remove this file.
+
+ClientSessionProvider component import and usage: This component, which might be handling session context, can be removed from app/layout.tsx and deleted if it was custom-made.
+
+next-auth dependency: You can remove next-auth from your package.json dependencies since you are no longer using it.
